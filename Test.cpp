@@ -29,9 +29,13 @@ std::string nospaces(std::string input) {
 	return input;
 }
 
+/*
+*counts the number of given symbol in a string
+*/
 int numOfSymbol(std::string str,char c){
     return std::count(str.begin(),str.end(),c);
 }
+
 
 TEST_CASE("Good input"){
     SUBCASE("small input"){
@@ -94,9 +98,6 @@ TEST_CASE("Good input"){
 
             CHECK(num1 + 2 == dnum1);
             CHECK(num2 + 2 == dnum2);
-  
-
-
         }
 
         // check to see that the character does not influance the final resualt
@@ -107,25 +108,31 @@ TEST_CASE("Good input"){
         {
             CHECK(res.substr(i*101,101) == res.substr((res2.length()-(101*(i+1))),101));
         }
+
+
+        
     }
 }
 
 TEST_CASE("Bad input") {
+    //checking for even/zero/negative value for row/column
     SUBCASE("bad rows/columns"){
         CHECK_THROWS(mat(10, 5, '$', '%'));
         CHECK_THROWS(mat(5, 10, '$', '%'));
         CHECK_THROWS(mat(-1, 5, '$', '%'));
         CHECK_THROWS(mat(5, -1, '$', '%'));
+        CHECK_THROWS(mat(0, 5, '$', '%'));
+        CHECK_THROWS(mat(5, 0, '$', '%'));
     }
     
-    
+
+    // a char that is of value less then 32 is not printable so we thorw an arrow
     SUBCASE("bad char"){
         for (size_t i = 0; i < 32; i++)
         {
             CHECK_THROWS(mat(7,5, i, '%'));
             CHECK_THROWS(mat(7,5, '^', i));
         }
-        
     }
 }
 
