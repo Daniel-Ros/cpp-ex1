@@ -1,8 +1,5 @@
 /**
- * An example of how to write unit tests.
- * Use this as a basis to build a more complete Test.cpp file.
- * 
- * IMPORTANT: Please write more tests - the tests here are only for example and are not complete.
+ * Test for given assigment. based on the example given by the course teacher and 
  *
  * AUTHORS: Daniel
  * 
@@ -89,15 +86,34 @@ TEST_CASE("Good input"){
             CHECK(res.substr(i*101,101) == res.substr((res.length()-(101*(i+1))),101));
         }
 
-        for (size_t i = 2; i < 50; i+=2)
-        {
-            int dnum1 = numOfSymbol(res.substr((i-2)*101,101),'!');
-            int num1 = numOfSymbol(res.substr(i*101,101),'!');
-            int dnum2 = numOfSymbol(res.substr((i-1)*101,101),'@');
-            int num2 = numOfSymbol(res.substr((i+1)*101,101),'@');
+        /**
+         * @brief This part is for checking that the number of symbols is correct, by examening the patter of a mat like here:
+         * @@@@@@@@@
+           @-------@
+           @-@@@@@-@
+           @-@---@-@
+           @-@-@-@-@
+           @-@---@-@
+           @-@@@@@-@
+           @-------@
+           @@@@@@@@@
 
-            CHECK(num1 + 2 == dnum1);
-            CHECK(num2 + 2 == dnum2);
+           we can see that that the number of '@' symbol in the third row is -2 from the first row, same goes for the second 
+           and fourth rows, but with the '-' symbol.  
+         */
+        for (size_t i = 1; i < 101; i+=2)
+        {    
+            res = mat(i,i,'!','@');
+            for (size_t j = 2; j < 50; j+=2)
+            {
+                int dnum1 = numOfSymbol(res.substr((j-2)*i,i),'!');
+                int num1 = numOfSymbol(res.substr(j*i,i),'!');
+                int dnum2 = numOfSymbol(res.substr((j-1)*i,i),'@');
+                int num2 = numOfSymbol(res.substr((j+1)*i,i),'@');
+
+                CHECK(num1 + 2 == dnum1);
+                CHECK(num2 + 2 == dnum2);
+            }
         }
 
         // check to see that the character does not influance the final resualt
@@ -107,10 +123,7 @@ TEST_CASE("Good input"){
         for (size_t i = 0; i < 50; i++)
         {
             CHECK(res.substr(i*101,101) == res.substr((res2.length()-(101*(i+1))),101));
-        }
-
-
-        
+        }       
     }
 }
 
