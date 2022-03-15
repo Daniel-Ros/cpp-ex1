@@ -4,25 +4,74 @@
 #include <stdexcept>
 namespace ariel
 {
-    const char BAD_CHAR = 32;
-
-    std::string mat(int x,int y,char c1,char c2)
-    {       
-        std::cout << x << " " << y << std::endl;
-        if(x % 2 == 0 || y % 2 == 0)
+    
+    const char SMALL_BOUND = 33;     //userd to bound the symbols int the [33,126] range
+    const char BIG_BOUND = 126;
+    
+    std::string mat(int columns,int rows,char sys1,char sys2)
+    {      
+        // Error checking
+        if((columns % 2 != 1 ) || (rows % 2 != 1))
         {
             throw std::invalid_argument("Mat size is always odd");
         }
 
-        if(x < 1 || y < 1)
+        if(columns < 1 || rows < 1)
         {
-            throw std::invalid_argument("row/colums should be a positive number");
+            throw std::out_of_range("size should be positive!");
         }
 
-        if(c1 < BAD_CHAR || c2 < BAD_CHAR)
+        if(sys1 < SMALL_BOUND || sys2 < SMALL_BOUND || sys1 > BIG_BOUND || sys2 > BIG_BOUND)
         {
-            throw std::invalid_argument("char should be a symbol( value > 32)");
+            throw std::invalid_argument("Char should not be special character");
         }
-        return "test";
+        
+        std::string ret; // output string
+
+        /**
+         * @brief Simple algorithm to draw the carpet.
+         * for every entery in out carpet we caculate 4 parameters 
+         * - i
+         * - j
+         * - k = columns - (j + 1) [the +1 is becuse we start our count from 0 and not 1]
+         * - l = rows - (i +1)
+         * 
+         * printing each entery with the  the minimum between i,j indexs gives us (on a 3x3 example):
+         * 000
+         * 011
+         * 012   
+         * 
+         * printing each entery with the  the minimum between k,l indexs gives us:
+         * 210
+         * 110
+         * 000
+         * 
+         * taking the minimum of those two matricies gives us:
+         * 000 
+         * 010
+         * 000
+         * 
+         * when we use the mod operation on each enetry, we can use that to know if we need to put the first or second symbol
+         */
+        for (size_t i = 0; i < rows; i++)
+        {
+            for (size_t j = 0; j < columns; j++)
+            {
+                int pos1 = (int)std::min(i,j);
+                int pos2 = (int)std::min(rows-(i + 1),columns- (j + 1));
+                int pos = std::min(pos1,pos2);
+                if(pos % 2 == 1)
+                {
+                    ret+= sys2;
+                }
+                else
+                {
+                    ret += sys1;
+                }
+            }
+            ret += "\n";
+        }
+        
+        return ret;
     }
 } // namespace ariel
