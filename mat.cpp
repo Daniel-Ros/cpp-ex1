@@ -5,7 +5,7 @@
 namespace ariel
 {
     
-    const char SMALL_BOUND = 33;     //userd to bound the symbols int the [33,126] range
+    const char SMALL_BOUND = 33;     //userd to bound the symbols in the [33,126] range
     const char BIG_BOUND = 126;
     
     std::string mat(int columns,int rows,char sys1,char sys2)

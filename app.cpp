@@ -22,36 +22,36 @@ void Clear()
 void App::showAddScreen(){
     Clear(); // claers the consle
 
-    Invoice inv;
+    Carpet carpet;
 
     std::cout << "Enter the number of columns: ";
-    std::cin >> inv.columns;
+    std::cin >> carpet.columns;
     std::cout << "Enter the number of rows: ";
-    std::cin >> inv.rows;
+    std::cin >> carpet.rows;
     std::cout << "Enter first symbol: ";
-    std::cin >> inv.sym1;
+    std::cin >> carpet.sym1;
     std::cout << "Enter second symbol: " << std::endl;
-    std::cin >> inv.sym2;
+    std::cin >> carpet.sym2;
 
     try{                                         //try to print the mat, if throws an error discard.
-        std::cout << ariel::mat(inv.columns,
-                                inv.rows,
-                                inv.sym1,
-                                inv.sym2);
+        std::cout << ariel::mat(carpet.columns,
+                                carpet.rows,
+                                carpet.sym1,
+                                carpet.sym2);
     }catch(std::invalid_argument e){
         std::cout << "You can't add this mat becuse: " << e.what() << "\n";
         return;
     }
 
-    invoices.push_back(inv);
+    carpets.push_back(carpet);
 }
 void App::showViewScreen(){
     Clear();
-    for(Invoice inv : invoices){
-        std::cout << ariel::mat(inv.columns,
-                                inv.rows,
-                                inv.sym1,
-                                inv.sym2);
+    for(Carpet carpet : carpets){
+        std::cout << ariel::mat(carpet.columns,
+                                carpet.rows,
+                                carpet.sym1,
+                                carpet.sym2);
         std::cout<< "------------------------------------------------";
     }
 }
